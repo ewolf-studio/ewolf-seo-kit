@@ -48,4 +48,38 @@ t('injection sans point d\'ancrage -> erreur', () => {
   assert.throws(() => injectAll('<div></div>', { head: 'x' }));
 });
 
+// ---- Plugin Vite ----
+const seoKit = require('../plugin-vite');
+
+t('plugin: transformIndexHtml injecte head + body', () => {
+  const p = seoKit(cfg);
+  p.configResolved({ root: process.cwd() });
+  const html = '<html><head></head><body><main></main></body></html>';
+  const out = p.transformIndexHtml(html);
+  assert.ok(out.includes('<title>Démo &amp; Test</title>'));
+  assert.ok(out.includes('class="sr-only"'));
+  assert.ok(out.includes('<noscript>'));
+});
+
+t('plugin: generateBundle émet les 3 artefacts', () => {
+  const p = seoKit(cfg);
+  p.configResolved({ root: process.cwd() });
+  const emitted = {};
+  p.generateBundle.call({ emitFile: (a) => { emitted[a.fileName] = a.source; } });
+  assert.deepStrictEqual(Object.keys(emitted).sort(), ['llms.txt', 'robots.txt', 'sitemap.xml']);
+  assert.ok(emitted['robots.txt'].includes('Sitemap: https://demo.ewolf.online/sitemap.xml'));
+});
+
+t('plugin: dev middleware sert /llms.txt', () => {
+  const p = seoKit(cfg);
+  p.configResolved({ root: process.cwd() });
+  let served = null, headers = {};
+  const handlers = [];
+  p.configureServer({ middlewares: { use: (fn) => handlers.push(fn) } });
+  const res = { setHeader: (k, v) => { headers[k] = v; }, end: (s) => { served = s; } };
+  handlers[0]({ url: '/llms.txt' }, res, () => { served = 'NEXT'; });
+  assert.ok(served && served.startsWith('# Démo'));
+  assert.ok(/text\/plain/.test(headers['Content-Type']));
+});
+
 console.log(`\n${n} tests OK.`);

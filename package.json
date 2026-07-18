@@ -6,8 +6,14 @@
     "seo-kit": "cli.js"
   },
   "main": "lib/generate.js",
+  "exports": {
+    ".": "./lib/generate.js",
+    "./vite": "./plugin-vite.js",
+    "./cli": "./cli.js"
+  },
   "files": [
     "cli.js",
+    "plugin-vite.js",
     "lib/",
     "seo.config.example.json"
   ],

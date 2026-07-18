@@ -56,6 +56,32 @@ Le `<head>` de ta page **ne doit pas** contenir de `<title>` ni de `<meta name="
 </body>
 ```
 
+## Plugin Vite (sites avec build)
+
+Pour les sites Vite (React, Vue, TS vanilla…), utilise le plugin plutôt que la CLI : il injecte les balises et sert/émet `llms.txt`/`robots.txt`/`sitemap.xml` sans étape manuelle.
+
+Installe le kit :
+
+```bash
+npm i -D github:ewolf-studio/ewolf-seo-kit
+```
+
+`vite.config.ts` :
+
+```ts
+import { defineConfig } from 'vite';
+import seoKit from '@ewolf/seo-kit/vite';
+
+export default defineConfig({
+  plugins: [seoKit('seo.config.json')],   // ou seoKit({ siteUrl: '…', title: '…' })
+});
+```
+
+- `vite build` → balises injectées dans `dist/index.html`, artefacts émis dans `dist/`.
+- `vite dev` → `/llms.txt`, `/robots.txt`, `/sitemap.xml` servis à la volée.
+
+Le `<head>` de ton `index.html` ne doit pas contenir de `<title>`/`<meta description>` en dur (même contrat que la CLI).
+
 ## Cœur réutilisable
 
 `lib/generate.js` expose des fonctions pures (`headTags`, `srOnlyTag`, `noscriptTag`, `llmsTxt`, `robotsTxt`, `sitemapXml`) — base d'un futur adaptateur (ex. composant React) sans réécrire la logique.
