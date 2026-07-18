@@ -38,7 +38,8 @@ Copier `seo.config.example.json` en `seo.config.json` et renseigner. Champs :
 | `noscript` | Message affiché si JavaScript est désactivé. |
 | `sitemap` | Liste des routes (défaut `["/"]`). |
 | `robots` | `{ "allow": true|false }`. |
-| `llms` | Contenu markdown de `llms.txt` (si vide, généré depuis title/description). |
+| `llms` | Contenu markdown de `llms.txt` inline (si vide, généré depuis title/description). |
+| `llmsFile` | Chemin (relatif au config) d'un fichier markdown source pour `llms.txt`. Prioritaire sur la génération auto, ignoré si `llms` est renseigné. |
 
 ## Contrat d'injection
 

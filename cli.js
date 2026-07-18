@@ -54,6 +54,13 @@ function build(args) {
   const check = !!args.check;
   const cfg = readConfig(configPath);
 
+  // llmsFile : contenu de llms.txt depuis un fichier source (relatif au config).
+  if (cfg.llmsFile && !(typeof cfg.llms === 'string' && cfg.llms.trim())) {
+    const llmsPath = path.resolve(path.dirname(configPath), cfg.llmsFile);
+    if (!fs.existsSync(llmsPath)) fail(`llmsFile introuvable : ${llmsPath}`);
+    cfg.llms = fs.readFileSync(llmsPath, 'utf8');
+  }
+
   if (!fs.existsSync(dir)) fail(`Dossier cible introuvable : ${dir} (utilise --dir).`);
   const indexPath = path.join(dir, 'index.html');
   if (!fs.existsSync(indexPath)) fail(`index.html introuvable dans ${dir}.`);
