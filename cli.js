@@ -73,7 +73,11 @@ function build(args) {
   const out = injectAll(html, { head, body });
 
   // Avertit si des balises SEO en dur subsistent hors des marqueurs (doublons).
-  const outsideMarkers = out.replace(/<!-- seo-kit:head:start[\s\S]*?<!-- seo-kit:head:end -->/i, '');
+  // On retire le bloc seo-kit PUIS tous les commentaires HTML (pour ne pas
+  // confondre un « <title> » cité dans un commentaire avec une vraie balise).
+  const outsideMarkers = out
+    .replace(/<!-- seo-kit:head:start[\s\S]*?<!-- seo-kit:head:end -->/i, '')
+    .replace(/<!--[\s\S]*?-->/g, '');
   if (/<title[\s>]/i.test(outsideMarkers))
     console.warn('  ⚠ un <title> statique subsiste dans <head> hors seo-kit → doublon. Retire-le (seo-kit gère le titre).');
   if (/<meta\s+name=["']description["']/i.test(outsideMarkers))
