@@ -1,0 +1,18 @@
+{
+  "siteUrl": "https://exemple.ewolf.online",
+  "lang": "fr",
+  "title": "Titre de la page | eWolf",
+  "description": "Description concise et indexable de la page (1-2 phrases).",
+  "keywords": ["mot-clé 1", "mot-clé 2"],
+  "author": "Mister Wolfgang",
+  "siteName": "eWolf",
+  "locale": "fr_FR",
+  "image": "/assets/preview.png",
+  "imageWidth": 1200,
+  "imageHeight": 630,
+  "srOnly": "Résumé indexable et lu par les lecteurs d'écran, décrivant le contenu de la page.",
+  "noscript": "Cette page nécessite JavaScript pour fonctionner.",
+  "sitemap": ["/"],
+  "robots": { "allow": true },
+  "llms": ""
+}

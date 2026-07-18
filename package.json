@@ -1,0 +1,19 @@
+{
+  "name": "@ewolf/seo-kit",
+  "version": "0.1.0",
+  "description": "Générateur SEO + llms.txt/robots/sitemap pour sites statiques eWolf. Zéro dépendance, agnostique du framework.",
+  "bin": {
+    "seo-kit": "cli.js"
+  },
+  "main": "lib/generate.js",
+  "files": [
+    "cli.js",
+    "lib/",
+    "seo.config.example.json"
+  ],
+  "scripts": {
+    "test": "node test/run.js"
+  },
+  "license": "UNLICENSED",
+  "private": false
+}
